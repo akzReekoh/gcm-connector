@@ -51,7 +51,7 @@ describe('Connector', function () {
 			connector.send({
 				type: 'data',
 				data: {
-					registrationTokens: ['', ''],
+					registrationTokens: ['1234', '4321'],
 					objectProps: {
 						key1: 'value1',
 						key2: 'value2'
