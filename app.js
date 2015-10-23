@@ -3,7 +3,7 @@
 var _ = require('lodash'),
 	platform = require('./platform'),
 	gcm = require('node-gcm'),
-	apiKey;
+	sender, apiKey;
 
 
 /*
@@ -12,8 +12,7 @@ var _ = require('lodash'),
 platform.on('data', function (data) {
 
 	var message = new gcm.Message(),
-		regTokens = data.registrationTokens, //array of registered device IDs
-		sender = new gcm.Sender(apiKey);
+		regTokens = data.registrationTokens; //array of registered device IDs
 
 	_.forEach(data.objectProps, function (value, key) {
 		message.addData(key, value);
@@ -36,9 +35,7 @@ platform.on('data', function (data) {
  * Event to listen to in order to gracefully release all resources bound to this service.
  */
 platform.on('close', function () {
-	conn.logout(function () {
-		platform.notifyClose();
-	});
+	platform.notifyClose();
 });
 
 /*
@@ -47,6 +44,7 @@ platform.on('close', function () {
 platform.once('ready', function (options) {
 
 	apiKey = options.apiKey;
+	sender = new gcm.sender(apiKey);
 
 	console.log(options);
 	platform.notifyReady();
