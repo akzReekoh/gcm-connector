@@ -1,0 +1,9 @@
+{
+  "apiKey":{
+	"label": "API Key",
+	"type": "String",
+	"required": true,
+	"help": "Google Cloud Messaging API Key"
+  }
+
+}
