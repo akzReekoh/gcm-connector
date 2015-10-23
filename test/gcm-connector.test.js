@@ -11,8 +11,15 @@ var cp     = require('child_process'),
 describe('Connector', function () {
 	this.slow(5000);
 
+
 	after('terminate child process', function () {
-		connector.kill('SIGKILL');
+		connector.send({
+			type: 'close'
+		});
+
+		setTimeout(function () {
+			connector.kill('SIGKILL');
+		}, 4000);
 	});
 
 	describe('#spawn', function () {
