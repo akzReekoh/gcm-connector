@@ -4,6 +4,36 @@
 	"type": "String",
 	"required": true,
 	"help": "Google Cloud Messaging API Key"
+  },
+  "default_title": {
+	"label": "Notification Title",
+	"type": "String",
+	"required": true,
+	"help": "Default Notification title"
+  },
+  "default_icon":{
+	"label": "Notification Icon",
+	"type": "String",
+	"required": true,
+	"help": "Default Notification icon"
+  },
+  "default_sound":{
+	"label": "Notification Sound",
+	"type": "String",
+	"required": true,
+	"help": "Default Notification sound"
+  },
+  "default_badge": {
+	"label": "Notification Badge",
+	"type": "String",
+	"required": true,
+	"help": "Default Notification badge"
+  },
+  "default_color": {
+	"label": "Notification Color",
+	"type": "String",
+	"required": true,
+	"help": "Default color of notification icon"
   }
 
 }
