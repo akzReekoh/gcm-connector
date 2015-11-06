@@ -41,12 +41,11 @@ platform.on('data', function (data) {
 
 	sender.send(message, { registrationTokens: regTokens }, function (err, result) {
 		if(err)
-			console.error(err);
+			platform.handleException(err);
 		else
-			console.log(result);
+			platform.log(result);
 	});
 
-	console.log(data);
 });
 
 /*
@@ -69,6 +68,7 @@ platform.once('ready', function (options) {
 	defaults.sound = options.default_sound;
 	defaults.badge = options.default_badge;
 
-	console.log(options);
+	platform.log('GCM Connector has initialized');
 	platform.notifyReady();
+
 });
