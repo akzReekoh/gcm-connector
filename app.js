@@ -1,33 +1,31 @@
 'use strict';
 
-var _ = require('lodash'),
+var _        = require('lodash'),
+	gcm      = require('node-gcm'),
 	platform = require('./platform'),
-	gcm = require('node-gcm'),
 	sender, apiKey,
 	defaults = {};
-
 
 /*
  * Listen for the data event.
  */
 platform.on('data', function (data) {
-
 	if (_.isEmpty(data.title) && _.isEmpty(defaults.title))
-		return platform.handleException(new Error('Notification title is required.'));
+		return platform.handleException(new Error('Missing data parameter: title'));
 
 	if (_.isEmpty(data.icon) && _.isEmpty(defaults.icon))
-		return platform.handleException(new Error('Notification icon is required.'));
+		return platform.handleException(new Error('Missing data parameter: icon'));
 
 	if (_.isEmpty(data.sound) && _.isEmpty(defaults.sound))
-		return platform.handleException(new Error('Notification sound is required.'));
+		return platform.handleException(new Error('Missing data parameter: sound'));
 
 	if (_.isEmpty(data.badge) && _.isEmpty(defaults.badge))
-		return platform.handleException(new Error('Notification badge is required.'));
+		return platform.handleException(new Error('Missing data parameter: badge'));
 
 	if (_.isEmpty(data.body))
-		return platform.handleException(new Error('Notification body is missing'));
+		return platform.handleException(new Error('Missing data parameter: body'));
 
-	var message = new gcm.Message(),
+	var message   = new gcm.Message(),
 		regTokens = data.registrationTokens; //array of registered device IDs
 
 	if (!_.isEmpty(data.objectProps))
@@ -39,13 +37,12 @@ platform.on('data', function (data) {
 	message.addNotification('sound', data.sound || defaults.sound);
 	message.addNotification('badge', data.badge || defaults.badge);
 
-	sender.send(message, { registrationTokens: regTokens }, function (err, result) {
-		if(err)
+	sender.send(message, {registrationTokens: regTokens}, function (err, result) {
+		if (err)
 			platform.handleException(err);
 		else
 			platform.log(result);
 	});
-
 });
 
 /*
@@ -59,7 +56,6 @@ platform.on('close', function () {
  * Listen for the ready event.
  */
 platform.once('ready', function (options) {
-
 	apiKey = options.apiKey;
 	sender = new gcm.sender(apiKey);
 
@@ -70,5 +66,4 @@ platform.once('ready', function (options) {
 
 	platform.log('GCM Connector has initialized');
 	platform.notifyReady();
-
 });
