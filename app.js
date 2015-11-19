@@ -1,6 +1,6 @@
 'use strict';
 
-var _        = require('lodash'),
+var isEmpty  = require('lodash.isempty'),
 	gcm      = require('node-gcm'),
 	platform = require('./platform'),
 	sender, apiKey,
@@ -10,25 +10,25 @@ var _        = require('lodash'),
  * Listen for the data event.
  */
 platform.on('data', function (data) {
-	if (_.isEmpty(data.title) && _.isEmpty(defaults.title))
+	if (isEmpty(data.title) && isEmpty(defaults.title))
 		return platform.handleException(new Error('Missing data parameter: title'));
 
-	if (_.isEmpty(data.icon) && _.isEmpty(defaults.icon))
+	if (isEmpty(data.icon) && isEmpty(defaults.icon))
 		return platform.handleException(new Error('Missing data parameter: icon'));
 
-	if (_.isEmpty(data.sound) && _.isEmpty(defaults.sound))
+	if (isEmpty(data.sound) && isEmpty(defaults.sound))
 		return platform.handleException(new Error('Missing data parameter: sound'));
 
-	if (_.isEmpty(data.badge) && _.isEmpty(defaults.badge))
+	if (isEmpty(data.badge) && isEmpty(defaults.badge))
 		return platform.handleException(new Error('Missing data parameter: badge'));
 
-	if (_.isEmpty(data.body))
+	if (isEmpty(data.body))
 		return platform.handleException(new Error('Missing data parameter: body'));
 
 	var message   = new gcm.Message(),
 		regTokens = data.registrationTokens; //array of registered device IDs
 
-	if (!_.isEmpty(data.objectProps))
+	if (!isEmpty(data.objectProps))
 		message.addData(data.objectProps);
 
 	message.addNotification('title', data.title || defaults.title);
