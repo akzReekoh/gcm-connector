@@ -1,7 +1,7 @@
 {
   "name": "gcm-connector",
   "description": "Google Cloud Messaging Connector for the Reekoh IoT Platform. ",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Reekoh, Inc.",
   "main": "app.js",
   "scripts": {
@@ -12,8 +12,8 @@
     "url": "https://github.com/Reekoh/gcm-connector"
   },
   "dependencies": {
-    "lodash": "^3.10.1",
-    "node-gcm":"^0.12.1"
+    "lodash.isempty": "^3.0.4",
+    "node-gcm": "^0.12.1"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
