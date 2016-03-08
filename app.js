@@ -1,15 +1,15 @@
 'use strict';
 
 var isEmpty  = require('lodash.isempty'),
+	isArray = require('lodash.isarray'),
+	isPlainObject = require('lodash.isplainobject'),
+	async = require('async'),
 	gcm      = require('node-gcm'),
 	platform = require('./platform'),
 	sender, apiKey,
 	defaults = {};
 
-/*
- * Listen for the data event.
- */
-platform.on('data', function (data) {
+let sendData = (data) => {
 	if (isEmpty(data.title) && isEmpty(defaults.title))
 		return platform.handleException(new Error('Missing data parameter: title'));
 
@@ -43,18 +43,25 @@ platform.on('data', function (data) {
 		else
 			platform.log(result);
 	});
+};
+
+platform.on('data', function (data) {
+	if(isPlainObject(data)){
+		sendData(data);
+	}
+	else if(isArray(data)){
+		async.each(data, (datum) => {
+			sendData(datum);
+		});
+	}
+	else
+		platform.handleException(new Error(`Invalid data received. Data must be a valid Array/JSON Object or a collection of objects. Data: ${data}`));
 });
 
-/*
- * Event to listen to in order to gracefully release all resources bound to this service.
- */
 platform.on('close', function () {
 	platform.notifyClose();
 });
 
-/*
- * Listen for the ready event.
- */
 platform.once('ready', function (options) {
 	apiKey = options.apiKey;
 	sender = new gcm.sender(apiKey);
