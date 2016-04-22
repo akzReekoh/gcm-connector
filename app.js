@@ -9,21 +9,21 @@ var isEmpty  = require('lodash.isempty'),
 	sender, apiKey,
 	defaults = {};
 
-let sendData = (data) => {
+let sendData = (data, callback) => {
 	if (isEmpty(data.title) && isEmpty(defaults.title))
-		return platform.handleException(new Error('Missing data parameter: title'));
+		callback(new Error('Missing data parameter: title'));
 
 	if (isEmpty(data.icon) && isEmpty(defaults.icon))
-		return platform.handleException(new Error('Missing data parameter: icon'));
+        callback(new Error('Missing data parameter: icon'));
 
 	if (isEmpty(data.sound) && isEmpty(defaults.sound))
-		return platform.handleException(new Error('Missing data parameter: sound'));
+        callback(new Error('Missing data parameter: sound'));
 
 	if (isEmpty(data.badge) && isEmpty(defaults.badge))
-		return platform.handleException(new Error('Missing data parameter: badge'));
+        callback(new Error('Missing data parameter: badge'));
 
 	if (isEmpty(data.body))
-		return platform.handleException(new Error('Missing data parameter: body'));
+        callback(new Error('Missing data parameter: body'));
 
 	var message   = new gcm.Message(),
 		regTokens = data.registrationTokens; //array of registered device IDs
@@ -38,22 +38,33 @@ let sendData = (data) => {
 	message.addNotification('badge', data.badge || defaults.badge);
 
 	sender.send(message, {registrationTokens: regTokens}, function (err, result) {
-		if (err)
-			platform.handleException(err);
-		else
-			platform.log(result);
+		if (!err)
+            platform.log(result);
+
+        callback(error);
+
 	});
 };
 
 platform.on('data', function (data) {
-	if(isPlainObject(data)){
-		sendData(data);
-	}
-	else if(isArray(data)){
-		async.each(data, (datum) => {
-			sendData(datum);
-		});
-	}
+    if(isPlainObject(data)){
+        sendData(data, (error) => {
+            if(error) {
+                console.error(error);
+                platform.handleException(error);
+            }
+        });
+    }
+    else if(isArray(data)){
+        async.each(data, (datum, done) => {
+            sendData(datum, done);
+        }, (error) => {
+            if(error) {
+                console.error(error);
+                platform.handleException(error);
+            }
+        });
+    }
 	else
 		platform.handleException(new Error(`Invalid data received. Data must be a valid Array/JSON Object or a collection of objects. Data: ${data}`));
 });
