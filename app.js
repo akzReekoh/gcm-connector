@@ -1,6 +1,6 @@
 'use strict'
 
-let reekoh = require('demo-reekoh-node')
+let reekoh = require('reekoh')
 let _plugin = new reekoh.plugins.Connector()
 let isEmpty = require('lodash.isempty')
 let isArray = require('lodash.isarray')
