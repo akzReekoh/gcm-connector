@@ -1,8 +1,8 @@
 'use strict';
 
-var cp     = require('child_process'),
+/*var cp     = require('child_process'),
 	should = require('should'),
-	connector;
+	connector;*/
 
 //describe('Connector', function () {
 //	this.slow(8000);
