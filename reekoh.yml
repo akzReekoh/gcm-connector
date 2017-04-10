@@ -12,43 +12,43 @@ metadata:
   tags:
     - Google
     - cloud
-  config:
-    apiKey:
-      label: API Key
-      type: Password
-      required: true
-      help: Google Cloud Messaging API Key
-    defaultTitle:
-      label: Notification Title
-      type: String
-      required: true
-      help: Default Notification title
-      maxLength: 1000
-    defaultIcon:
-      label: Notification Icon
-      type: String
-      required: true
-      help: Default Notification icon
-      maxLength: 1000
-    defaultSound:
-      label: Notification Sound
-      type: String
-      required: true
-      help: Default Notification sound
-      maxLength: 1000
-    defaultBadge:
-      label: Notification Badge
-      type: String
-      required: true
-      help: Default Notification badge
-      maxLength: 1000
-    defaultColor:
-      label: Notification Color
-      type: String
-      required: true
-      help: Default color of notification icon
-      maxLength: 1000
   release:
     version: 1.0.0
     notes: path/to/RELEASENOTESv1.0.0.md
     image: path/to/docker/image
+    config:
+        apiKey:
+          label: API Key
+          type: Password
+          required: true
+          help: Google Cloud Messaging API Key
+        defaultTitle:
+          label: Notification Title
+          type: String
+          required: true
+          help: Default Notification title
+          maxLength: 1000
+        defaultIcon:
+          label: Notification Icon
+          type: String
+          required: true
+          help: Default Notification icon
+          maxLength: 1000
+        defaultSound:
+          label: Notification Sound
+          type: String
+          required: true
+          help: Default Notification sound
+          maxLength: 1000
+        defaultBadge:
+          label: Notification Badge
+          type: String
+          required: true
+          help: Default Notification badge
+          maxLength: 1000
+        defaultColor:
+          label: Notification Color
+          type: String
+          required: true
+          help: Default color of notification icon
+          maxLength: 1000
