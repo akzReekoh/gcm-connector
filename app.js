@@ -80,7 +80,7 @@ _plugin.on('data', (data) => {
  * Emitted when the platform bootstraps the plugin. The plugin should listen once and execute its init process.
  */
 _plugin.once('ready', () => {
-  sender = new GCM.sender(_plugin.config.apiKey)
+  sender = new GCM.Sender(_plugin.config.apiKey)
 
   defaults.title = _plugin.config.defaultTitle
   defaults.icon = _plugin.config.defaultIcon
